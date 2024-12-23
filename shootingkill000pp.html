@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dystraveil - Hoja de Personaje</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background-color: #000;
+            color: #d8b2ff;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #111;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #d8b2ff;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: #d8b2ff;
+        }
+        header p {
+            font-size: 1.2em;
+            color: #aaa;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #111;
+            border: 2px solid #d8b2ff;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .left-column {
+            width: 60%;
+        }
+        .right-column {
+            width: 35%;
+            text-align: center;
+            background-color: #000;
+            border-radius: 10px;
+            box-shadow: 0 0 15px #d8b2ff;
+            padding: 10px;
+        }
+        h2 {
+            color: #d8b2ff;
+            border-bottom: 1px solid #d8b2ff;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .section input,
+        .section textarea {
+            width: 100%;
+            padding: 10px;
+            background: #000;
+            color: #d8b2ff;
+            border: none;
+            font-size: 1.5em;
+        }
+        .attributes-grid,
+        .skills-grid {
+            display: grid;
+            gap: 15px;
+        }
+        .skills-grid {
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        }
+        .reputation-section input {
+            font-size: 1.5em;
+            text-align: center;
+            border: 2px solid #d8b2ff;
+            padding: 10px;
+        }
+        .photo-frame {
+            border: 2px solid #d8b2ff;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+        .photo-frame img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        #landscape-photo {
+            content: url('/mnt/data/landscape-photo.avif'); /* Ruta a la imagen predefinida */
+            pointer-events: none; /* Desactiva la posibilidad de cambiar la imagen */
+        }
+        .upload-btn {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 1em;
+            background: #222;
+            color: #d8b2ff;
+            border: 1px solid #d8b2ff;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .upload-btn:hover {
+            background: #444;
+        }
+        .notes,
+        .racial-skills {
+            background: #000;
+            border: 1px solid #d8b2ff;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 1.5em;
+        }
+        .hidden {
+            display: none;
+        }
+        .button-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .nav-button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background: #222;
+            color: #d8b2ff;
+            border: 1px solid #d8b2ff;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+        .nav-button:hover {
+            background: #444;
+        }
+        .custom-frame {
+            border: 2px solid #d8b2ff;
+            border-radius: 10px;
+            width: 400px;
+            height: 859px;
+            margin: 0 auto;
+            overflow: hidden;
+            background: #111;
+        }
+        .frame-upload-btn {
+            margin-bottom: 10px;
+        }
+        .notes {
+            height: 859px;
+            font-size: 1.5em;
+            overflow-y: auto;
+        }
+        
+        /* Alineación de los campos de texto */
+        .input-group {
+            width: 100%;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 1.5em;
+            background: #000;
+            color: #d8b2ff;
+            border: none;
+        }
+
+        /* Botón debajo del marco para cargar imagen de paisaje */
+        .upload-btn-landscape {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 1em;
+            background: #222;
+            color: #d8b2ff;
+            border: 1px solid #d8b2ff;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .upload-btn-landscape:hover {
+            background: #444;
+        }
+    </style>
+       <script>
+        // Función para navegar a otra página
+        function navigateToPage(url) {
+            window.location.href = url;
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Dystraveil - Hoja de Personaje</h1>
+        <p>Explora las estrellas, define tu destino</p>
+    </header>
+
+    <div class="button-container">
+        <button class="nav-button" onclick="showPage('page1')">Página 1</button>
+        <button class="nav-button" onclick="showPage('page2')">Página 2</button>
+        <button class="nav-button" onclick="showPage('page3')">Índice</button>
+        <button class="nav-button" onclick="navigateToPage('file:///C:/Users/peter/Desktop/pes/obs/abo1224.html')">Ir a Otra Página</button>
+    </div>
+
+    <div id="page1" class="container">
+        <!-- Columna de la izquierda -->
+        <div class="left-column">
+            <!-- Atributos -->
+            <div class="section">
+                <h2>Atributos</h2>
+                <div class="attributes-grid">
+                    <div>
+                        <label for="strength">Fuerza</label>
+                        <input type="number" id="strength" placeholder="0">
+                    </div>
+                    <div>
+                        <label for="dexterity">Destreza</label>
+                        <input type="number" id="dexterity" placeholder="0">
+                    </div>
+                    <div>
+                        <label for="constitution">Constitución</label>
+                        <input type="number" id="constitution" placeholder="0">
+                    </div>
+                    <div>
+                        <label for="intelligence">Inteligencia</label>
+                        <input type="number" id="intelligence" placeholder="0">
+                    </div>
+                    <div>
+                        <label for="charisma">Carisma</label>
+                        <input type="number" id="charisma" placeholder="0">
+                    </div>
+                    <div>
+                        <label for="eterafinidad">Éterafinidad</label>
+                        <input type="number" id="eterafinidad" placeholder="0">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Atributos Especiales -->
+            <div class="section">
+                <h2>Atributos Especiales</h2>
+                <div class="attributes-grid">
+                    <div>
+                        <label for="ferrumbiosis">Ferrumbiosis (FER)</label>
+                        <input type="number" id="ferrumbiosis" placeholder="0" min="0" max="6">
+                    </div>
+                    <div>
+                        <label for="puntos-eter">Puntos de Éter (PE)</label>
+                        <input type="number" id="puntos-eter" placeholder="0" min="0">
+                    </div>
+                    <div>
+                        <label for="puntos-eter-oscuros">Puntos de Éter Oscuro (PEO)</label>
+                        <input type="number" id="puntos-eter-oscuros" placeholder="0" min="0">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Habilidades -->
+            <div class="section">
+                <h2>Habilidades</h2>
+                <div class="skills-grid">
+                    <div>
+                        <label for="pilotaje">Pilotaje</label>
+                        <input type="number" id="pilotaje" min="0" placeholder="0">
+                    </div>
+                    <div>
+                        <label for="armas-blancas">Manejo de Armas Blancas</label>
+                        <input type="number" id="armas-blancas" min="0" placeholder="0">
+                    </div>
+                    <div>
+                        <label for="proyectiles">Manejo de Proyectiles</label>
+                        <input type="number" id="proyectiles" min="0" placeholder="0">
+                    </div>
+                    <div>
+                        <label for="atletismo">Atletismo</label>
+                        <input type="number" id="atletismo" min="0" placeholder="0">
+                    </div>
+                    <div>
+                        <label for="percepcion">Percepción</label>
+                        <input type="number" id="percepcion" min="0" placeholder="0">
+                    </div>
+                    <div>
+                        <label for="reflejos">Reflejos</label>
+                        <input type="number" id="reflejos" min="0" placeholder="0">
+                    </div>
+                    <div>
+                        <label for="tecnica">Técnica</label>
+                        <input type="number" id="tecnica" min="0" placeholder="0">
+                    </div>
+                    <div>
+                        <label for="sigilo">Sigilo</label>
+                        <input type="number" id="sigilo" min="0" placeholder="0">
+                    </div>
+                    <div>
+                        <label for="persuasion">Persuasión</label>
+                        <input type="number" id="persuasion" min="0" placeholder="0">
+                    </div>
+                    <div>
+                        <label for="supervivencia">Supervivencia</label>
+                        <input type="number" id="supervivencia" min="0" placeholder="0">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Columna de la derecha -->
+        <div class="right-column">
+            <div class="photo-frame">
+                <img src="placeholder.jpg" id="character-photo" alt="Foto del personaje">
+                <button class="upload-btn" onclick="uploadPhoto('character-photo')">Subir Foto de Personaje</button>
+            </div>
+            <div class="section">
+                <div class="input-group">
+                    <label for="nombre">Nombre del Personaje</label>
+                    <input type="text" id="nombre" placeholder="Escribe el nombre">
+                </div>
+                <div class="input-group">
+                    <label for="raza">Raza</label>
+                    <input type="text" id="raza" placeholder="Escribe la raza">
+                </div>
+                <div class="input-group">
+                    <label for="clase">Clase</label>
+                    <input type="text" id="clase" placeholder="Escribe la clase">
+                </div>
+            </div>
+            <div class="photo-frame">
+                <img src="/mnt/data/landscape-photo.avif" id="landscape-photo" alt="Foto del paisaje">
+            </div>
+            <button class="upload-btn-landscape" onclick="uploadPhoto('landscape-photo')">Subir Foto de Paisaje</button>
+        </div>
+    </div>
+
+    <div id="page2" class="container hidden">
+        <div class="left-column">
+            <div class="section">
+                <h2>Habilidades Raciales</h2>
+                <textarea rows="10" placeholder="Describe las habilidades raciales aquí..."></textarea>
+            </div>
+        </div>
+        <div class="right-column">
+            <div class="section">
+                <h2>Equipo</h2>
+                <textarea rows="10" placeholder="Lista el equipo del personaje aquí..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div id="page3" class="container hidden">
+        <div class="left-column">
+            <div class="section">
+                <h2>Índice de Atributos y Habilidades</h2>
+                <div class="notes">
+                    <p><strong>Ferrumbiosis:</strong> Representa el grado en que la Ferrumbiosis afecta al personaje. Esta condición, exclusiva de los Ferrunianos o aquellos expuestos a su tecnología, ocurre cuando el cuerpo comienza a fusionarse con el metal de manera involuntaria debido al uso prolongado de recursos como el Ferrium Vaporizado o la corrupción del Éter.</p>
+                    <p><strong>Pilotaje:</strong> Capacidad para operar naves, vehículos terrestres y transportes aéreos. Beneficio: Añade +2 a tiradas relacionadas con maniobras, despegues y aterrizajes.</p>
+                    <p><strong>Manejo de Armas Blancas:</strong> Dominio de espadas, dagas y otras armas de filo. Beneficio: Añade +2 a ataques con armas cuerpo a cuerpo de filo.</p>
+                    <p><strong>Manejo de Proyectiles:</strong> Especialización en armas a distancia, como pistolas, rifles y arcos. Beneficio: Añade +2 a tiradas de ataque con armas de proyectiles.</p>
+                    <p><strong>Atletismo:</strong> Incluye habilidades físicas como escalar, nadar y saltar. Beneficio: Añade +2 a tiradas de esfuerzo físico.</p>
+                    <p><strong>Percepción:</strong> Habilidad para detectar peligros, trampas o detalles importantes en el entorno. Beneficio: Añade +2 a tiradas de observación.</p>
+                    <p><strong>Reflejos:</strong> Incrementa la capacidad para reaccionar rápidamente ante amenazas o estímulos. Beneficio: Añade +2 a tiradas de evasión o defensa reactiva.</p>
+                    <p><strong>Técnica:</strong> Comprensión y uso de sistemas tecnológicos y mecánicos. Beneficio: Añade +2 a tiradas relacionadas con hackeo, reparación o manipulación de dispositivos.</p>
+                    <p><strong>Sigilo:</strong> Capacidad para moverse sin ser detectado. Beneficio: Añade +2 a tiradas de infiltración o sigilo.</p>
+                    <p><strong>Persuasión:</strong> Habilidad para negociar, convencer o manipular verbalmente a otros. Beneficio: Añade +2 a tiradas de interacción social.</p>
+                    <p><strong>Supervivencia:</strong> Competencia en entornos hostiles, incluyendo la recolección de recursos y la navegación. Beneficio: Añade +2 a tiradas de orientación y resistencia ambiental.</p>
+                </div>
+            </div>
+        </div>
+        <div class="right-column">
+            <button class="upload-btn frame-upload-btn" onclick="uploadPhoto('frame-photo')">Subir Foto</button>
+            <div class="custom-frame">
+                <img id="frame-photo" src="placeholder.jpg" alt="Imagen del marco" style="width: 100%; height: 100%;">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function uploadPhoto(photoId) {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        document.getElementById(photoId).src = event.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            input.click();
+        }
+
+        function showPage(pageId) {
+            document.getElementById('page1').classList.add('hidden');
+            document.getElementById('page2').classList.add('hidden');
+            document.getElementById('page3').classList.add('hidden');
+            document.getElementById(pageId).classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
